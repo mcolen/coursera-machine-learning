@@ -18,14 +18,12 @@ grad = zeros(size(theta));
 %
 %               You should set J to the cost and grad to the gradient.
 %
-h = X * theta;
-errors = h - y;
-squared_errors = errors .^ 2;
-sum_of_squared_errors = sum(squared_errors);
-reg = sum(theta(2:end) .^ 2);
-J = (1 / 2 / m) * sum_of_squared_errors + (lambda / 2 / m) * reg;
-
+errors = X * theta - y;
+J = 1 / (2 * m) * sum(errors .^ 2);
 grad = (1 / m) * X' * errors;
+
+% Add regularization terms.
+J += lambda / (2 * m) * sum(theta(2:end) .^ 2);
 grad(2:end) += (lambda / m) * theta(2:end);
 % =========================================================================
 
