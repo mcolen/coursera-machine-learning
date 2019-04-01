@@ -62,16 +62,32 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 for t = 1:m
-  z_2 = Theta1 * [1; X(t, :)'];
+  input_features = X(t, :)';
+  
+  % Feedforward
+  z_2 = Theta1 * [1; input_features];
   a_2 = sigmoid(z_2);
   h = sigmoid(Theta2 * [1; a_2]);
+  
   label = (1:num_labels)' == y(t);
   J += sum(-label .* log(h) - (1 - label) .* log(1- h));
+  
+  % Backpropagation
+  delta_3 = h - label;
+  Theta2_grad += delta_3 * [1; a_2]';
+  delta_2 = (Theta2' * delta_3)(2:end) .* sigmoidGradient(z_2);
+  Theta1_grad += delta_2 * [1; input_features]';
 endfor
+
+% Finish cost calculation.
 J /= m;
 reg = sum(Theta1(:,2:end)(:) .^ 2) + sum(Theta2(:,2:end)(:) .^ 2);
 reg *= lambda / (2 * m);
 J += reg;
+
+% Finish gradient calculation.
+Theta1_grad ./= m;
+Theta2_grad ./= m;
 % =========================================================================
 
 % Unroll gradients
