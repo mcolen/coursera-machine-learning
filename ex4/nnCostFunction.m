@@ -69,6 +69,9 @@ for t = 1:m
   J += sum(-label .* log(h) - (1 - label) .* log(1- h));
 endfor
 J /= m;
+reg = sum(Theta1(:,2:end)(:) .^ 2) + sum(Theta2(:,2:end)(:) .^ 2);
+reg *= lambda / (2 * m);
+J += reg;
 % =========================================================================
 
 % Unroll gradients
