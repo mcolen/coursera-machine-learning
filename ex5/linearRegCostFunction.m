@@ -24,6 +24,9 @@ squared_errors = errors .^ 2;
 sum_of_squared_errors = sum(squared_errors);
 reg = sum(theta(2:end) .^ 2);
 J = (1 / 2 / m) * sum_of_squared_errors + (lambda / 2 / m) * reg;
+
+grad = (1 / m) * X' * errors;
+grad(2:end) += (lambda / m) * theta(2:end);
 % =========================================================================
 
 grad = grad(:);
