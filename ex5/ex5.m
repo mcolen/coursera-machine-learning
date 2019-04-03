@@ -229,7 +229,7 @@ error_val   = zeros(m, 1);
 
 for i = 1:m
     for n = 1:num_iters
-	indices = randperm(m)(1:i)
+	indices = randperm(m)(1:i);
         theta = trainLinearReg(X_poly(indices, :), y(indices), lambda);
         error_train(i) += linearRegCostFunction(X_poly(indices, :), y(indices), theta, 0);
         error_val(i) += linearRegCostFunction(X_poly_val, yval, theta, 0);
