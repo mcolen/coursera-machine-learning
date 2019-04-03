@@ -218,3 +218,38 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+%% =========== Part 9: Learning Curve with Randomly Selected Examples=============
+num_iters = 50;
+lambda = 0.01;
+
+m = size(X_poly, 1);
+error_train = zeros(m, 1);
+error_val   = zeros(m, 1);
+
+for i = 1:m
+    for n = 1:num_iters
+	indices = randperm(m)(1:i)
+        theta = trainLinearReg(X_poly(indices, :), y(indices), lambda);
+        error_train(i) += linearRegCostFunction(X_poly(indices, :), y(indices), theta, 0);
+        error_val(i) += linearRegCostFunction(X_poly_val, yval, theta, 0);
+    end
+    error_train(i) /= num_iters;
+    error_val(i) /= num_iters;
+end
+
+plot(1:m, error_train, 1:m, error_val);
+title('Learning curve for linear regression')
+legend('Train', 'Cross Validation')
+xlabel('Number of training examples')
+ylabel('Error')
+axis([0 13 0 150])
+
+fprintf('# Training Examples\tTrain Error\tCross Validation Error\n');
+for i = 1:m
+    fprintf('  \t%d\t\t%f\t%f\n', i, error_train(i), error_val(i));
+end
+
+fprintf('Program paused. Press enter to continue.\n');
+pause;
+
