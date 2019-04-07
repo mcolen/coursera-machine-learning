@@ -20,13 +20,10 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
-
-
-
-
-
-
+for i = 1:size(X,1)
+  differences = centroids - X(i, :);
+  [_ idx(i)] = min(sum(differences .^ 2, 2));
+end
 % =============================================================
 
 end
