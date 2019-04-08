@@ -49,6 +49,7 @@ for i = 1:size(X_grad, 1)
   Theta_temp = Theta(idx, :);
   Y_temp = Y(i, idx);
   X_grad(i,:) = (X(i,:) * Theta_temp' - Y_temp) * Theta_temp;
+  X_grad(i,:) += lambda * X(i,:);
 end
 
 % Compute Theta_grad.
@@ -57,6 +58,7 @@ for i = 1:size(Theta_grad,1)
   X_temp = X(idx, :);
   Y_temp = Y(idx, i);
   Theta_grad(i,:) = (X_temp * Theta(i,:)' - Y_temp)' * X_temp;
+  Theta_grad(i,:) += lambda * Theta(i,:);
 end
 % =============================================================
 
